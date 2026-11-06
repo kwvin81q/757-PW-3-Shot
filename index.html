@@ -49,6 +49,29 @@ main, .wrap { text-shadow:0 1px 3px #09121b; }
 }
 
 </style>
+<style id="readable-vibe-text">
+.panel {
+  background: #101924;
+  color: #f4f7fb;
+  padding: clamp(14px, 3vw, 24px);
+  border: 1px solid #526579;
+  border-radius: 16px;
+}
+main, .wrap { line-height: 1.55; }
+:is(main, .wrap) :is(p, .hint, .help, .muted, .lead, .notice, .amt-note, .fine, .tiny, summary, small, label) {
+  font-size: max(1rem, 16px);
+  line-height: 1.55;
+}
+:is(main, .wrap) :is(.hint, .help, .muted, .lead, .fine, .tiny) {
+  color: #dae4ee;
+}
+:is(header, .top, details, footer, p, .hint, .help, .fine, .tiny) {
+  text-shadow: 0 1px 3px #060a10;
+}
+body::before {
+  background-image: linear-gradient(rgba(5,11,19,.65), rgba(5,11,19,.48) 38%, #09121b 95%), url("./aircraft-wallpaper.webp");
+}
+</style>
 </head><body><main class="wrap"><header><div><div class="tag">B757 · PRATT & WHITNEY PW2000</div><h1>Three-Shot Plot</h1><small>Test 18 · Fan-plane only · graphical worksheet</small></div><span class="pill">OFFLINE APP</span></header><section class="panel"><h2>1 · Fan balance ring & trial weight</h2><div class="grid"><div><label for="flange">Fan ring</label><select id="flange"><option value="18">18 balance sections</option></select></div><div><label for="sectionA">0° trial section (A)</label><select id="sectionA"></select></div><div><label for="weight">Actual trial weight</label><input id="weight" type="number" min="0.001" step="any" value="14.9"></div><div><label for="unit">Weight units</label><select id="unit"><option value="oz-in">oz-in (moment)</option><option value="g-mm">g-mm (moment)</option></select></div></div><div class="hint" id="positions"></div><p class="lead">FAN ONLY. Select the marked 0° balance section (A). B and C are at 120° and 240° around the 18-section fan balance ring (six sections apart). View is FRONT OF ENGINE LOOKING AFT with positions increasing counterclockwise toward the LEFT. Enter the actual trial-weight moment, not only the physical mass. Confirm the marking and effectivity in the current AMM.</p></section><section class="panel"><h2>2 · Vibration readings</h2><p class="lead">Enter FAN / B-flange vibration readings at the same N1 for all four runs: RI without trial weight, then RA/RB/RC with the trial weight moved to the marked 0°/120°/240° fan sections. Other flange measurements are not used in this fan-only worksheet.</p><div id="speeds"></div><div class="actions"><button id="calculate">CALCULATE PLOT</button><button type="button" class="secondary" id="clear">Clear readings</button></div><div id="result" aria-live="polite"></div></section><section class="panel"><h2>3 · Three-shot plot & flange</h2><div id="flangeDiagram"></div><div id="diagram"><p class="muted">Enter readings and select Calculate Plot to display the trial-circle model.</p></div><details><summary>Calculation method and quality checks</summary><p class="lead">Illustrative three-circle numerical fit of A/B/C readings. Estimated correction moment = trial moment × RI / RT. This is not a validated implementation of the PW2000 Sommervaille AMM construction; location, weight-class selection, hardware allocation, and allowable limits must be independently checked.</p></details></section><section class="panel"><h2>Manual references</h2><p class="lead">Uploaded B757 PW2000 AMM 71-00-00-5, Revision 141.0: pp. 183–197, particularly Test 18 fan-plane procedure pp. 190–197 and Table 505. Separate turbine and phase-angle procedures are excluded.</p><div class="notice"><b>Reference calculation only.</b> Do not select or install actual aircraft balance weights or positions from this app. Confirm effectivity, marked sections, retained weights, measured weight, run conditions, graphical fit, and the current controlled AMM. A numerical three-shot solution is not an authorized hardware installation plan.</div></section></main><script>
 'use strict';
 const $=id=>document.getElementById(id), RAD=Math.PI/180, TAU=Math.PI*2;
